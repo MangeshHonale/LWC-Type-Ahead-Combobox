@@ -1,0 +1,7 @@
+.typeahead {
+    width: 100%;
+}
+
+.no-results {
+    color: var(--lwc-colorTextWeak, #706e6b);
+}
