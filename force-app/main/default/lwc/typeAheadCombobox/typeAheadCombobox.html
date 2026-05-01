@@ -1,0 +1,74 @@
+<template>
+    <div class="typeahead" onfocusout={handleFocusOut}>
+        <label if:true={label} class="slds-form-element__label" for="input">
+            {label}
+        </label>
+
+        <div
+            class={comboboxClass}
+            aria-expanded={isDropdownOpen}
+            aria-haspopup="listbox"
+            role="combobox"
+        >
+            <div class="slds-combobox__form-element" role="none">
+                <input
+                    id="input"
+                    class="slds-input slds-combobox__input"
+                    type="text"
+                    role="textbox"
+                    aria-autocomplete="list"
+                    aria-controls="options-listbox"
+                    aria-activedescendant={activeDescendant}
+                    autocomplete="off"
+                    placeholder={placeholder}
+                    value={searchTerm}
+                    disabled={disabled}
+                    required={required}
+                    oninput={handleInput}
+                    onfocus={handleFocus}
+                    onkeydown={handleKeyDown}
+                />
+            </div>
+
+            <div
+                if:true={isDropdownOpen}
+                id="options-listbox"
+                class="slds-dropdown slds-dropdown_fluid slds-dropdown_length-5"
+                role="listbox"
+            >
+                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                    <template if:true={filteredOptions.length}>
+                        <template for:each={filteredOptions} for:item="option">
+                            <li
+                                key={option.value}
+                                id={option.id}
+                                class={option.className}
+                                role="presentation"
+                                data-index={option.index}
+                                data-value={option.value}
+                                onmousedown={handleOptionMouseDown}
+                            >
+                                <div
+                                    class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                    role="option"
+                                    aria-selected={option.isActive}
+                                >
+                                    <span class="slds-media__body">
+                                        <span class="slds-truncate" title={option.label}>
+                                            {option.label}
+                                        </span>
+                                    </span>
+                                </div>
+                            </li>
+                        </template>
+                    </template>
+                    <template if:false={filteredOptions.length}>
+                        <li class="slds-listbox__item slds-p-around_small no-results" role="presentation">
+                            <span>{noResultsLabel}</span>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
